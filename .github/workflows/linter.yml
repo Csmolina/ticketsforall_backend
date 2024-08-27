@@ -20,12 +20,6 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Get or Put virtualenv cache
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: ${{ runner.os }}-ci-venv-${{ hashFiles('poetry.lock') }}
-
       - name: Install dependencies
         run: |
           pip install poetry
