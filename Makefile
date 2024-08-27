@@ -14,3 +14,6 @@ run-lint:
 	poetry run autoflake --remove-all-unused-imports --remove-unused-variables --recursive --in-place . --exclude=__init__.py,venv,.ven,conftest.py
 	poetry run flake8
 	black adapters api core factories infrastructure --check
+
+run-tests:
+	poetry run pytest
