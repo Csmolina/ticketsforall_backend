@@ -32,7 +32,7 @@ jobs:
 
     - name: Check health endpoint
       run: |
-        http_status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/health_check)
+        http_status=$(curl -s -o /dev/null -w "%{http_code}" 127.0.0.1:8000/health_check/)
         if [ "$http_status" -ne 200 ]; then
           echo "Health check failed with status code $http_status"
           exit 1
