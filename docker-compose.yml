@@ -1,0 +1,16 @@
+services:
+  ticketsforall_backend:
+    image: ticketsforall_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - ticketsforall
+
+networks:
+  ticketsforall:
+
+volumes:
+  localstack-data:
