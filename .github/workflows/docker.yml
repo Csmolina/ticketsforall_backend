@@ -1,0 +1,40 @@
+name: Docker Health Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker image
+      run: docker build -t ticketsforall_backend .
+
+    - name: Run Docker container
+      run: |
+        docker run -d --name ticketsforall_backend_container -p 8000:8000 ticketsforall_backend
+
+    - name: Wait for container to be healthy
+      run: |
+        sleep 10
+
+    - name: Check health endpoint
+      run: |
+        http_status=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/health_check)
+        if [ "$http_status" -ne 200 ]; then
+          echo "Health check failed with status code $http_status"
+          exit 1
+        fi
+        echo "Health check passed with status code $http_status"
