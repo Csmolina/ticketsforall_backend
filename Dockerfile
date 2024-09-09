@@ -14,6 +14,7 @@ COPY api ./api
 COPY core ./core
 COPY factories ./factories
 
+
 COPY main.py .
 
 EXPOSE 8000
