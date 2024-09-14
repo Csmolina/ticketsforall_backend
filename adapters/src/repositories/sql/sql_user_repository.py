@@ -30,10 +30,11 @@ class SQLUserRepository(UserRepository):
             self.session.rollback()
             raise UserRepositoryException(method="list")
 
-    def create_user(self, user: User) -> User:
+    def create_user(self, name: str, email: str) -> User:
         try:
             user_to_create = UserSchema(
-                id=user.id, name=user.name, email=user.email, user_type=user.user_type
+                name=name,
+                email=email,
             )
             with self.session as session:
                 session.add(user_to_create)

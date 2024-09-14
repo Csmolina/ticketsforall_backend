@@ -13,13 +13,12 @@ async def create_or_get_user(
 ) -> CreateUserResponseDto:
     response = use_case(
         CreateUserRequest(
-            id=request.id,
             name=request.name,
             email=request.email,
-            user_type=request.user_type,
         )
     )
+    print("this is the response: ", response.user.model_dump())
     response_dto: CreateUserResponseDto = CreateUserResponseDto(
-        **response.user._asdict()
+        user=response.user.model_dump()
     )
     return response_dto

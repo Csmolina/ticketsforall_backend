@@ -12,12 +12,14 @@ class CreateUser:
         self.user_repository = user_repository
 
     def __call__(self, request: CreateUserRequest) -> Optional[CreateUserResponse]:
-        user = User(**request._asdict())
         try:
-            user_existing = self.user_repository.get_by_email(user.email)
+            user_existing = self.user_repository.get_by_email(request.email)
             if not user_existing:
-                response: Optional[User] = self.user_repository.create_user(user)
-                return CreateUserResponse(response)
+                new_user: Optional[User] = self.user_repository.create_user(
+                    name=request.name, email=request.email
+                )
+                return CreateUserResponse(user=new_user)
+            return CreateUserResponse(user=user_existing)
 
         except Exception as e:
             raise UserBusinessException(str(e))

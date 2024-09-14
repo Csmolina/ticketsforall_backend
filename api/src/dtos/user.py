@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class UserBase(BaseModel):
-    id: str
+    id: int
     name: str
     email: str
     user_type: str
@@ -14,10 +14,8 @@ class ListUsersResponseDto(BaseModel):
 
 
 class CreateUserRequestDto(BaseModel):
-    id: str
     name: str
     email: str
-    user_type: str
 
 
 class CreateUserResponseDto(BaseModel):
