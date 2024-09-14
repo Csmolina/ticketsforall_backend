@@ -1,11 +1,11 @@
 from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class UserBase(BaseModel):
     id: int
     name: str
-    email: str
+    email: EmailStr
     user_type: str
 
 
@@ -15,7 +15,7 @@ class ListUsersResponseDto(BaseModel):
 
 class CreateUserRequestDto(BaseModel):
     name: str
-    email: str
+    email: EmailStr
 
 
 class CreateUserResponseDto(BaseModel):

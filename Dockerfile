@@ -9,13 +9,7 @@ RUN pip install poetry && \
     poetry config virtualenvs.create false && \
     poetry install
 
-COPY adapters ./adapters
-COPY api ./api
-COPY core ./core
-COPY factories ./factories
-
-
-COPY main.py .
+COPY . .
 
 EXPOSE 8000
 
