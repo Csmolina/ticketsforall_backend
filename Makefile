@@ -5,7 +5,7 @@ activate-venv:
 	source .venv/bin/activate
 
 install-dependencies:
-	poetry install --with development
+	poetry install --with dev --no-root
 
 activate-pre-commit:
 	pre-commit install
@@ -17,3 +17,6 @@ run-lint:
 
 run-tests:
 	poetry run pytest
+
+start-app-first-time:
+	docker compose up --build

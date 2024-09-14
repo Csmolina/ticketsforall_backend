@@ -20,11 +20,11 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: Build Docker image
-      run: docker build -t ticketsforall_backend .
+      run: docker compose build
 
     - name: Run Docker container
       run: |
-        docker run -d --name ticketsforall_backend_container -p 8000:8000 ticketsforall_backend
+        docker compose up -d
 
     - name: Wait for container to be healthy
       run: |

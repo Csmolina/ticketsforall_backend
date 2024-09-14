@@ -6,6 +6,26 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    restart: always
+    depends_on:
+      - ticketsforall_database
+    environment:
+      SQL_URL: "postgresql://root:root@ticketsforall_database:5432/ticketsforall"
+
+    networks:
+      - ticketsforall
+  
+  ticketsforall_database:
+    container_name: ticketsforall_database
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ticketsforall
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ../postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
     networks:
       - ticketsforall
 
