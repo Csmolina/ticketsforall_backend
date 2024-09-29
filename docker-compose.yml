@@ -11,6 +11,12 @@ services:
       - ticketsforall_database
     environment:
       SQL_URL: "postgresql://root:root@ticketsforall_database:5432/ticketsforall"
+      OAUTH_CLIENT_ID: ${OAUTH_CLIENT_ID}
+      OAUTH_CLIENT_SECRET: ${OAUTH_CLIENT_SECRET}
+      OAUTH_REDIRECT_URI: ${OAUTH_REDIRECT_URI}
+      SECRET_KEY: ${SECRET_KEY}
+      REDIRECT_URI: ${REDIRECT_URI}
+      REDIRECT_RESPONSE: ${REDIRECT_RESPONSE}
 
     networks:
       - ticketsforall

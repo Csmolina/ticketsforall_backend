@@ -1,12 +1,15 @@
 from fastapi import APIRouter, Depends
 from core.src.use_cases import CreateUser, CreateUserRequest
+from adapters.src.jwt.jwt_token import verify_jwt_token
 from factories.use_cases import get_or_create_user_use_case
 from ..dtos import CreateUserResponseDto, CreateUserRequestDto
 
 user_router = APIRouter(prefix="/users", tags=["users"])
 
 
-@user_router.post("/", response_model=CreateUserResponseDto)
+@user_router.post(
+    "/", response_model=CreateUserResponseDto, dependencies=[Depends(verify_jwt_token)]
+)
 async def create_or_get_user(
     request: CreateUserRequestDto,
     use_case: CreateUser = Depends(get_or_create_user_use_case),
@@ -17,7 +20,6 @@ async def create_or_get_user(
             email=request.email,
         )
     )
-    print("this is the response: ", response.user.model_dump())
     response_dto: CreateUserResponseDto = CreateUserResponseDto(
         user=response.user.model_dump()
     )
