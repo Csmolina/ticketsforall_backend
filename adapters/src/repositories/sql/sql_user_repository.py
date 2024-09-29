@@ -10,7 +10,7 @@ class SQLUserRepository(UserRepository):
     def __init__(self, session: Session) -> None:
         self.session = session
 
-    def list_all(self) -> List[User]:
+    def get_all_users(self) -> List[User]:
         try:
             with self.session as session:
                 users = session.query(UserSchema).all()
@@ -18,7 +18,7 @@ class SQLUserRepository(UserRepository):
                     return []
                 user_list = [
                     User(
-                        id=str(user.id),
+                        id=user.id,
                         name=str(user.name),
                         email=str(user.email),
                         user_type=str(user.user_type),

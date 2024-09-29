@@ -51,3 +51,51 @@ def test_create_user_exception_handling():
 
         # Ensure rollback was called
         mock_session.rollback.assert_called_once()
+
+
+def test_get_all_users_success():
+    mock_session = MagicMock()
+    mock_users = [
+        UserSchema(id=1, name="User 1", email="user1@example.com", user_type="default"),
+        UserSchema(id=2, name="User 2", email="user2@example.com", user_type="default"),
+    ]
+
+    mock_session.__enter__.return_value = mock_session
+
+    mock_session.query.return_value.all.return_value = mock_users
+
+    repo = SQLUserRepository(session=mock_session)
+
+    expected_users = [
+        User(id=1, name="User 1", email="user1@example.com", user_type="default"),
+        User(id=2, name="User 2", email="user2@example.com", user_type="default"),
+    ]
+
+    result = repo.get_all_users()
+
+    assert result == expected_users
+
+    mock_session.query.assert_called_once_with(UserSchema)
+
+
+def test_get_all_users_empty():
+    mock_session = MagicMock()
+    repo = SQLUserRepository(session=mock_session)
+
+    mock_query = mock_session.query.return_value
+    mock_query.all.return_value = []
+
+    result = repo.get_all_users()
+
+    assert result == []
+
+
+def test_get_all_users_exception():
+    mock_session = MagicMock()
+    repo = SQLUserRepository(session=mock_session)
+
+    mock_session.__enter__.return_value.query.side_effect = Exception("Database error")
+
+    with pytest.raises(UserRepositoryException):
+        repo.get_all_users()
+    mock_session.rollback.assert_called_once()
